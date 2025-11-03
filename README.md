@@ -215,42 +215,37 @@ cat > sfn-inline-policy.json <<JSON
 {
   "Version":"2012-10-17",
   "Statement":[
-    {"Effect":"Allow","Action":[
-      "codebuild:StartBuild","codebuild:BatchGetBuilds"
-    ],"Resource":[
-      "arn:aws:codebuild:ap-northeast-1:${ACCOUNT_ID}:project/cb-ecr-nginx-to-tar"
-    ]}
+    {
+      "Effect":"Allow",
+      "Action": [
+        "codebuild:StartBuild",
+        "codebuild:BatchGetBuilds"
+      ],
+      "Resource": [
+        "arn:aws:codebuild:ap-northeast-1:${ACCOUNT_ID}:project/cb-ecr-nginx-to-tar"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "events:PutTargets",
+        "events:PutRule",
+        "events:DescribeRule"
+      ],
+      "Resource": [
+        "arn:aws:events:ap-northeast-1:${ACCOUNT_ID}:rule/StepFunctions*"
+      ]
+    }
   ]
 }
 JSON
+
 aws iam put-role-policy --role-name sfn-starts-codebuild-role --policy-name sfn-starts-codebuild-inline --policy-document file://sfn-inline-policy.json
 ```
 
 ### 3-3. ステートマシン作成
 
 ```
-aws iam get-role --role-name AWSServiceRoleForAmazonEventBridge
-```
-
-`The role with name AWSServiceRoleForAmazonEventBridge cannot be found.` になる場合。
-
-```
-aws iam create-service-linked-role --aws-service-name events.amazonaws.com
-```
-
-```
-aws iam get-role --role-name AWSServiceRoleForStepFunctions
-```
-
-`The role with name AWSServiceRoleForStepFunctions cannot be found.`になる場合。
-
-```
-aws iam create-service-linked-role --aws-service-name states.amazonaws.com
-```
-
-```
-aws iam create-service-linked-role --aws-service-name states.amazonaws.com
-
 cat > sfn-definition.json <<'JSON'
 { ... 上の ASL を貼り付け ... }
 JSON
