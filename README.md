@@ -227,6 +227,17 @@ aws iam put-role-policy --role-name sfn-starts-codebuild-role --policy-name sfn-
 ```
 
 ### 3-3. ステートマシン作成
+
+```
+aws iam get-role --role-name AWSServiceRoleForStepFunctions
+```
+
+`The role with name AWSServiceRoleForStepFunctions cannot be found.`になる場合。
+
+```
+aws iam create-service-linked-role --aws-service-name states.amazonaws.com
+```
+
 ```
 aws iam create-service-linked-role --aws-service-name states.amazonaws.com
 
