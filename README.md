@@ -234,7 +234,7 @@ JSON
 
 aws stepfunctions create-state-machine \
   --name sf-codebuild-ecr-to-tar \
-  --role-arn arn:aws:iam::'"$ACCOUNT_ID"':role/sfn-starts-codebuild-role \
+  --role-arn "arn:aws:iam::${ACCOUNT_ID}:role/sfn-starts-codebuild-role" \
   --definition file://sfn-definition.json \
   --type STANDARD \
   --tracing-configuration enabled=true \
