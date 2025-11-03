@@ -125,15 +125,19 @@ SERVICE_ROLE_ARN="arn:aws:iam::${ACCOUNT_ID}:role/cb-nginx-tar-role"
 aws codebuild create-project \
   --name cb-ecr-nginx-to-tar \
   --region ap-northeast-1 \
-  --source type=NO_SOURCE \
-  --environment 'type=LINUX_CONTAINER,image=aws/codebuild/standard:7.0,computeType=BUILD_GENERAL1_MEDIUM,privilegedMode=true' \
+  --source "{\"type\":\"NO_SOURCE\",\"buildspec\":${BUILD_SPEC}}" \
+  --environment '{
+    "type": "LINUX_CONTAINER",
+    "image": "aws/codebuild/standard:7.0",
+    "computeType": "BUILD_GENERAL1_MEDIUM",
+    "privilegedMode": true
+  }' \
   --service-role "$SERVICE_ROLE_ARN" \
-  --artifacts type=NO_ARTIFACTS \
+  --artifacts '{"type":"NO_ARTIFACTS"}' \
   --timeout-in-minutes 30 \
   --queued-timeout-in-minutes 60 \
   --badge-enabled \
-  --logs-config cloudWatchLogs="{status=ENABLED}" \
-  --buildspec file://buildspec-nginx-tar.yml
+  --logs-config '{"cloudWatchLogs":{"status":"ENABLED"}}'
 ```
 
 イメージサイズが大きい場合や複数回実行する場合は、computeType=BUILD_GENERAL1_LARGE や --secondary-artifacts は不要ですが、privilegedMode=true は忘れないでください。
