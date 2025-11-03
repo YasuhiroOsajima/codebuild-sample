@@ -229,6 +229,16 @@ aws iam put-role-policy --role-name sfn-starts-codebuild-role --policy-name sfn-
 ### 3-3. ステートマシン作成
 
 ```
+aws iam get-role --role-name AWSServiceRoleForAmazonEventBridge
+```
+
+`The role with name AWSServiceRoleForAmazonEventBridge cannot be found.` になる場合。
+
+```
+aws iam create-service-linked-role --aws-service-name events.amazonaws.com
+```
+
+```
 aws iam get-role --role-name AWSServiceRoleForStepFunctions
 ```
 
