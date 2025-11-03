@@ -120,12 +120,14 @@ artifacts:
 
 ### 2-2. プロジェクト作成
 ```
+SERVICE_ROLE_ARN="arn:aws:iam::${ACCOUNT_ID}:role/cb-nginx-tar-role"
+
 aws codebuild create-project \
   --name cb-ecr-nginx-to-tar \
   --region ap-northeast-1 \
   --source type=NO_SOURCE \
   --environment 'type=LINUX_CONTAINER,image=aws/codebuild/standard:7.0,computeType=BUILD_GENERAL1_MEDIUM,privilegedMode=true' \
-  --service-role arn:aws:iam::'"$ACCOUNT_ID"':role/cb-nginx-tar-role \
+  --service-role "$SERVICE_ROLE_ARN" \
   --artifacts type=NO_ARTIFACTS \
   --timeout-in-minutes 30 \
   --queued-timeout-in-minutes 60 \
