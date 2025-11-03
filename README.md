@@ -269,6 +269,14 @@ aws stepfunctions start-execution \
 - 成功後、s3://<BUCKET>/images/nginx-mainline-alpine3.22.tar が生成されます。
 - 途中のログは CodeBuild の CloudWatch Logs と Step Functions 実行履歴 を確認。
 
+ログの保持期限を1日に設定。
+
+```
+aws logs put-retention-policy \
+  --log-group-name "/aws/codebuild/cb-ecr-nginx-to-tar" \
+  --retention-in-days 1
+```
+
 ## 5) 本番向けの注意点・ベストプラクティス
 - 権限の最小化：ECR リソース ARN を可能なら特定リポジトリに限定。S3 もバケット・プレフィックスを限定。
 - コスト・時間：毎回 docker pull するため、頻度が高い場合は CodeBuild ローカルキャッシュや ECR pull-through cache も検討。
