@@ -228,6 +228,8 @@ aws iam put-role-policy --role-name sfn-starts-codebuild-role --policy-name sfn-
 
 ### 3-3. ステートマシン作成
 ```
+aws iam create-service-linked-role --aws-service-name states.amazonaws.com
+
 cat > sfn-definition.json <<'JSON'
 { ... 上の ASL を貼り付け ... }
 JSON
