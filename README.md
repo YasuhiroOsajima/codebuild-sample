@@ -136,7 +136,7 @@ aws codebuild create-project \
   --artifacts '{"type":"NO_ARTIFACTS"}' \
   --timeout-in-minutes 30 \
   --queued-timeout-in-minutes 60 \
-  --badge-enabled \
+  --no-badge-enabled \
   --logs-config '{"cloudWatchLogs":{"status":"ENABLED"}}'
 ```
 
